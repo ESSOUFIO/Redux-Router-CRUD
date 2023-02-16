@@ -1,39 +1,28 @@
+import { useEffect } from "react";
 import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPosts } from "../../store/postSlice";
+import PostItem from "./PostItem";
 
 const PostList = () => {
+  const dispatch = useDispatch();
+  const { records } = useSelector((state) => state.posts);
+
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
+
+  const postList = records.map((el) => <PostItem key={el.id} post={el} />);
   return (
     <Table striped bordered hover>
       <thead>
         <tr>
           <th>#</th>
-          <th>Title</th>
-          <th>Last Name</th>
+          <th className="w-100">Title</th>
+          <th></th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>2563</td>
-          <td>This 1st title</td>
-          <td>
-            <ButtonGroup className="me-2" aria-label="First group">
-              <Button>1</Button>
-              <Button>2</Button>
-            </ButtonGroup>
-          </td>
-        </tr>
-        <tr>
-          <td>2563</td>
-          <td>This 1st title</td>
-          <td>
-            <ButtonGroup className="me-2" aria-label="First group">
-              <Button>1</Button>
-              <Button>2</Button>
-            </ButtonGroup>
-          </td>
-        </tr>
-      </tbody>
+      <tbody>{postList}</tbody>
     </Table>
   );
 };

@@ -8,6 +8,10 @@ import RootLayout from "./pages/RootLayout";
 import ErrorPage from "./pages/ErrorPage";
 import AddPost from "./pages/AddPost";
 import AboutUs from "./pages/AboutUs";
+import Auth from "./pages/Auth";
+import PostList from "./components/Post/PostList";
+import { Provider } from "react-redux";
+import store from "./store";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +20,10 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
+        index: true,
+        element: <PostList />,
+      },
+      {
         path: "post/add",
         element: <AddPost />,
       },
@@ -23,10 +31,18 @@ const router = createBrowserRouter([
         path: "about-us",
         element: <AboutUs />,
       },
+      {
+        path: "auth",
+        element: <Auth />,
+      },
     ],
   },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<RouterProvider router={router} />);
+root.render(
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
+);
 reportWebVitals();

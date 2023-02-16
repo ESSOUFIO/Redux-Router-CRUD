@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 const Header = () => {
   return (
     <div className="my-4">
-      <h2>Redux Router CRUD</h2>
+      <h2 className="mb-3">Redux Router CRUD</h2>
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="">Redux</Navbar.Brand>
@@ -22,7 +22,7 @@ const Header = () => {
             </LinkContainer>
           </Nav>
           <Nav>
-            <LinkContainer to="login" className="ms-auto">
+            <LinkContainer to="auth" className="ms-auto">
               <Nav.Link>Login</Nav.Link>
             </LinkContainer>
           </Nav>
