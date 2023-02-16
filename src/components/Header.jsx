@@ -14,7 +14,7 @@ const Header = () => {
             </LinkContainer>
 
             <LinkContainer to="post/add">
-              <Nav.Link>Add Post</Nav.Link>
+              <Nav.Link id="addPost">Add Post</Nav.Link>
             </LinkContainer>
 
             <LinkContainer to="about-us">

@@ -13,11 +13,33 @@ export const fetchPosts = createAsyncThunk(
     }
   }
 );
+
+export const addPost = createAsyncThunk(
+  "posts/addPost",
+  async (post, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const res = await fetch("http://localhost:5000/posts", {
+        method: "POST",
+        body: JSON.stringify(post),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 const postSlice = createSlice({
   name: "posts",
   initialState: { records: [], loading: false, error: null },
   reducers: {},
   extraReducers: (builder) => {
+    //** === Fetch Posts === */
     builder.addCase(fetchPosts.pending, (state, action) => {
       state.loading = true;
     });
@@ -28,6 +50,21 @@ const postSlice = createSlice({
     });
 
     builder.addCase(fetchPosts.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+
+    //** === Add Post === */
+    builder.addCase(addPost.pending, (state, action) => {
+      state.loading = true;
+    });
+
+    builder.addCase(addPost.fulfilled, (state, action) => {
+      state.loading = false;
+      state.records.push(action.payload);
+    });
+
+    builder.addCase(addPost.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     });
