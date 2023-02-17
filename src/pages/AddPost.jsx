@@ -45,12 +45,13 @@ const AddPost = () => {
             type="text"
             placeholder="Put the post's title here .."
             ref={titleRef}
+            autoFocus
           />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="description">
           <Form.Label>Description</Form.Label>
-          <Form.Control as="textarea" ref={descriptionRef} />
+          <Form.Control as="textarea" ref={descriptionRef} rows={4} />
         </Form.Group>
 
         <Loading>
