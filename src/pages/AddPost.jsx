@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 import { addPost } from "../store/postSlice";
 
 const AddPost = () => {
@@ -52,9 +53,11 @@ const AddPost = () => {
           <Form.Control as="textarea" ref={descriptionRef} />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
+        <Loading>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Loading>
       </Form>
     </div>
   );
