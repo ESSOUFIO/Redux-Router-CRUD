@@ -15,7 +15,7 @@ const PostList = () => {
 
   const postList = records.map((el) => <PostItem key={el.id} post={el} />);
   return (
-    <Loading>
+    <>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -26,7 +26,8 @@ const PostList = () => {
         </thead>
         <tbody>{postList}</tbody>
       </Table>
-    </Loading>
+      <Loading />
+    </>
   );
 };
 
