@@ -1,7 +1,9 @@
 import { Nav, Container, Navbar } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 
 const Header = () => {
+  const { isLoggedIn } = useSelector((state) => state.auth);
   return (
     <div className="my-4">
       <h2 className="mb-3">Redux Router CRUD</h2>
@@ -23,7 +25,7 @@ const Header = () => {
           </Nav>
           <Nav>
             <LinkContainer to="auth" className="ms-auto">
-              <Nav.Link>Login</Nav.Link>
+              <Nav.Link>{isLoggedIn ? "Logout" : "Login"}</Nav.Link>
             </LinkContainer>
           </Nav>
         </Container>
