@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import Loading from "../components/Loading";
 import { fetchPost, resetRecord } from "../store/postSlice";
 
 const PostDetails = () => {
@@ -17,7 +18,7 @@ const PostDetails = () => {
   }, [dispatch, id]);
 
   return (
-    <div>
+    <Loading>
       <h2>Post Details</h2>
       <p>
         ID: <b>{record?.id}</b>
@@ -28,7 +29,7 @@ const PostDetails = () => {
       <p>
         Description: <b>{record?.description}</b>
       </p>
-    </div>
+    </Loading>
   );
 };
 
