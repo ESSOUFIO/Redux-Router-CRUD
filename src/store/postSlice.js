@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { act } from "react-dom/test-utils";
 
 export const fetchPosts = createAsyncThunk(
   "posts/fetchPosts",
@@ -7,6 +6,20 @@ export const fetchPosts = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
     try {
       const res = await fetch("http://localhost:5000/posts");
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const fetchPost = createAsyncThunk(
+  "posts/fetchPost",
+  async (id, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const res = await fetch(`http://localhost:5000/posts/${id}`);
       const data = await res.json();
       return data;
     } catch (error) {
@@ -51,12 +64,17 @@ export const addPost = createAsyncThunk(
     }
   }
 );
+
 const postSlice = createSlice({
   name: "posts",
   initialState: { records: [], loading: false, error: null, record: null },
   reducers: {
     setRecord(state, action) {
       state.record = action.payload;
+    },
+
+    resetRecord(state) {
+      state.record = null;
     },
   },
   extraReducers: (builder) => {
@@ -71,6 +89,21 @@ const postSlice = createSlice({
     });
 
     builder.addCase(fetchPosts.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+
+    //** === Fetch Post === */
+    builder.addCase(fetchPost.pending, (state, action) => {
+      state.loading = true;
+    });
+
+    builder.addCase(fetchPost.fulfilled, (state, action) => {
+      state.loading = false;
+      state.record = action.payload;
+    });
+
+    builder.addCase(fetchPost.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     });
@@ -107,5 +140,5 @@ const postSlice = createSlice({
   },
 });
 
-export const { setRecord } = postSlice.actions;
+export const { setRecord, resetRecord } = postSlice.actions;
 export default postSlice.reducer;
