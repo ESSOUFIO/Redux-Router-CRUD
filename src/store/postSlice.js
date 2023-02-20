@@ -44,6 +44,26 @@ export const deletePost = createAsyncThunk(
   }
 );
 
+export const editPost = createAsyncThunk(
+  "posts/editPost",
+  async (post, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      await fetch(`http://localhost:5000/posts/${post.id}`, {
+        method: "PATCH",
+        body: JSON.stringify(post),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      return post;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const addPost = createAsyncThunk(
   "posts/addPost",
   async (post, thunkAPI) => {
@@ -81,6 +101,7 @@ const postSlice = createSlice({
     //** === Fetch Posts === */
     builder.addCase(fetchPosts.pending, (state, action) => {
       state.loading = true;
+      state.error = false;
     });
 
     builder.addCase(fetchPosts.fulfilled, (state, action) => {
@@ -96,6 +117,7 @@ const postSlice = createSlice({
     //** === Fetch Post === */
     builder.addCase(fetchPost.pending, (state, action) => {
       state.loading = true;
+      state.error = false;
     });
 
     builder.addCase(fetchPost.fulfilled, (state, action) => {
@@ -111,6 +133,7 @@ const postSlice = createSlice({
     //** === Add Post === */
     builder.addCase(addPost.pending, (state, action) => {
       state.loading = true;
+      state.error = false;
     });
 
     builder.addCase(addPost.fulfilled, (state, action) => {
@@ -126,6 +149,7 @@ const postSlice = createSlice({
     //** === Delete Post === */
     builder.addCase(deletePost.pending, (state) => {
       state.loading = true;
+      state.error = false;
     });
 
     builder.addCase(deletePost.fulfilled, (state, action) => {
@@ -134,6 +158,22 @@ const postSlice = createSlice({
     });
 
     builder.addCase(deletePost.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+
+    //** === Edit Post === */
+    builder.addCase(editPost.pending, (state) => {
+      state.loading = true;
+      state.error = false;
+    });
+
+    builder.addCase(editPost.fulfilled, (state, action) => {
+      state.loading = false;
+      state.record = null;
+    });
+
+    builder.addCase(editPost.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     });

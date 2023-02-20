@@ -1,18 +1,22 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { Provider } from "react-redux";
+import store from "./store";
+
+//** == Pages == */
+import PostDetails from "./pages/PostDetails";
+import PostEdit from "./pages/PostEdit";
 import RootLayout from "./pages/RootLayout";
 import ErrorPage from "./pages/ErrorPage";
 import AddPost from "./pages/AddPost";
 import AboutUs from "./pages/AboutUs";
 import Auth from "./pages/Auth";
 import PostList from "./components/Post/PostList";
-import { Provider } from "react-redux";
-import store from "./store";
-import PostDetails from "./pages/PostDetails";
+import GuardRouter from "./utils/GuardRouter";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +31,11 @@ const router = createBrowserRouter([
       {
         path: "post/add",
         element: <AddPost />,
+        // element: (
+        //   <GuardRouter>
+        //     <AddPost />
+        //   </GuardRouter>
+        // ),
       },
       {
         path: "about-us",
@@ -39,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "post/:id/details",
         element: <PostDetails />,
+      },
+      {
+        path: "post/:id/edit",
+        element: <PostEdit />,
       },
     ],
   },

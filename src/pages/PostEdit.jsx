@@ -1,24 +1,25 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import { useGetPost } from "../hooks/useGetPost";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import { editPost } from "../store/postSlice";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
-import { addPost } from "../store/postSlice";
 import withGuard from "../utils/withGuard";
 
-const AddPost = () => {
+const PostEdit = () => {
+  const { record } = useGetPost();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const idRef = useRef();
   const titleRef = useRef();
   const descriptionRef = useRef();
-  const id = Math.floor(Math.random() * 1000);
-
-  const dispatch = useDispatch();
 
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(
-      addPost({
-        id,
+      editPost({
+        id: idRef.current.value,
         title: titleRef.current.value,
         description: descriptionRef.current.value,
       })
@@ -26,18 +27,21 @@ const AddPost = () => {
       .unwrap()
       .then(() => {
         navigate("/");
-      })
-      .then(() => {
-        document.querySelector("#addPost").classList.remove("active");
       });
   };
+
+  useEffect(() => {
+    idRef.current.value = record?.id;
+    titleRef.current.value = record?.title;
+    descriptionRef.current.value = record?.description;
+  }, [record]);
 
   return (
     <div className="col-8">
       <Form onSubmit={submitHandler}>
         <Form.Group className="mb-3" controlId="id">
           <Form.Label>ID:</Form.Label>
-          <Form.Control type="text" disabled value={id} />
+          <Form.Control type="text" disabled ref={idRef} />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="title">
@@ -65,4 +69,4 @@ const AddPost = () => {
   );
 };
 
-export default withGuard(AddPost);
+export default withGuard(PostEdit);

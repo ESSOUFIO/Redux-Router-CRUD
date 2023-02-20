@@ -22,7 +22,7 @@ const DeleteModal = () => {
   };
 
   return (
-    <Modal show={delModal} onHide={handleClose}>
+    <Modal show={delModal} onHide={handleClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>Delete Post</Modal.Title>
       </Modal.Header>
