@@ -37,7 +37,7 @@ const router = createBrowserRouter([
         path: "post/add",
 
         element: (
-          <Suspense>
+          <Suspense fallback={<h6>Loading...</h6>}>
             <AddPost />
           </Suspense>
         ),
@@ -50,7 +50,7 @@ const router = createBrowserRouter([
       {
         path: "about-us",
         element: (
-          <Suspense>
+          <Suspense fallback={<h6>Loading...</h6>}>
             <AboutUs />
           </Suspense>
         ),
@@ -58,7 +58,7 @@ const router = createBrowserRouter([
       {
         path: "auth",
         element: (
-          <Suspense>
+          <Suspense fallback={<h6>Loading...</h6>}>
             <Auth />
           </Suspense>
         ),
@@ -66,7 +66,7 @@ const router = createBrowserRouter([
       {
         path: "post/:id/details",
         element: (
-          <Suspense>
+          <Suspense fallback={<h6>Loading...</h6>}>
             <PostDetails />
           </Suspense>
         ),
@@ -74,7 +74,7 @@ const router = createBrowserRouter([
       {
         path: "post/:id/edit",
         element: (
-          <Suspense>
+          <Suspense fallback={<h6>Loading...</h6>}>
             <PostEdit />
           </Suspense>
         ),
