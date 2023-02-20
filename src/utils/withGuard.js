@@ -8,7 +8,7 @@ const withGuard = (Component) => {
         {isLoggedIn ? (
           <Component {...props} />
         ) : (
-          <h6>Please login to fave full access..</h6>
+          <h5>Please login to get full access .. </h5>
         )}
       </>
     );
