@@ -1,15 +1,18 @@
+import { useFormik } from "formik";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import { addPost } from "../store/postSlice";
 import withGuard from "../utils/withGuard";
-import * as yup from "yup";
-import { useFormik } from "formik";
+import * as Yup from "yup";
 
-const FormSchema = yup.object().shape({
-  title: yup.string().required("Required"),
-  description: yup.string().required("Required"),
+const FormSchema = Yup.object().shape({
+  title: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  description: Yup.string().required("Required"),
 });
 
 const AddPost = () => {
@@ -55,16 +58,17 @@ const AddPost = () => {
           <Form.Label>Title</Form.Label>
           <Form.Control
             type="text"
+            placeholder="Put the post's title here .."
             name="title"
             onChange={formik.handleChange}
             value={formik.values.title}
-            isValid={formik.values.title && !formik.errors.title}
-            isInvalid={!!formik.errors.title}
             autoFocus
           />
-          <Form.Control.Feedback type="invalid">
-            {formik.errors.title}
-          </Form.Control.Feedback>
+          <div style={{ color: "red" }}>
+            {formik.errors.title && formik.touched.title ? (
+              <div>{formik.errors.title}</div>
+            ) : null}
+          </div>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="description">
@@ -74,13 +78,13 @@ const AddPost = () => {
             name="description"
             onChange={formik.handleChange}
             value={formik.values.description}
-            isValid={formik.values.description && !formik.errors.description}
-            isInvalid={!!formik.errors.description}
             rows={4}
           />
-          <Form.Control.Feedback type="invalid">
-            {formik.errors.description}
-          </Form.Control.Feedback>
+          <div style={{ color: "red" }}>
+            {formik.errors.description && formik.touched.description ? (
+              <div>{formik.errors.description}</div>
+            ) : null}
+          </div>
         </Form.Group>
 
         <Loading>
